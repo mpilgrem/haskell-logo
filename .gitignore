@@ -1,0 +1,9 @@
+# The Haskell Tool Stack-related
+.stack-work/
+*.lock
+
+# Build artefacts
+*.svg
+
+# VS Code-related
+.vscode/
