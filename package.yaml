@@ -1,7 +1,7 @@
 spec-version:        0.36.0
 
 name:                haskell-logo
-version:             0.1.0.0
+version:             0.2.0.0
 github:              "mpilgrem/haskell-logo"
 license:             BSD-3-Clause
 author:              "Mike Pilgrem"
@@ -43,7 +43,16 @@ library:
 executables:
   haskell-logo:
     main:                Main.hs
-    source-dirs:         app
+    source-dirs:         app-haskell-logo
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-logo
+  stack-logo:
+    main:                Main.hs
+    source-dirs:         app-stack-logo
     ghc-options:
     - -threaded
     - -rtsopts

@@ -4,7 +4,9 @@
 module Diagrams.TwoD.HaskellLogo
   ( HaskellLogoPalette (..)
   , defaultHaskellLogoPalette
+  , plainHaskellLogoPalette
   , haskellLogo
+  , haskellLogo'
   ) where
 
 import          Data.List.NonEmpty ( NonEmpty (..) )
@@ -24,17 +26,26 @@ data HaskellLogoPalette c = HaskellLogoPalette
     -- ^ The colour of the 'equals' element.
   } deriving Eq
 
--- | Given a palette of colours, yields the Haskell logo with width 1.0 and
+-- | Given a palette of colours, yields the Haskell logo with width 512 px and
 -- origin at bottom left corner of the logo.
 haskellLogo ::
      (Color c, Renderable (Path V2 Double) b)
   => HaskellLogoPalette c
   -> QDiagram b V2 Double Any
 haskellLogo palette =
+  haskellLogo' palette # scale (512/204)
+
+-- | Given a palette of colours, yields the Haskell logo with width 204 px and
+-- origin at bottom left corner of the logo.
+haskellLogo' ::
+     (Color c, Renderable (Path V2 Double) b)
+  => HaskellLogoPalette c
+  -> QDiagram b V2 Double Any
+haskellLogo' palette =
   (   arrow # fillColor (arrowColor palette)
   <> lambda # fillColor (lambdaColor palette)
   <> equals # fillColor (equalsColor palette)
-  ) # scale (1/204) # lw none
+  ) # lw none
  where
   fromPairs (p :| ps) =
     let ps' = p : ps <> [p]
@@ -82,4 +93,12 @@ defaultHaskellLogoPalette = HaskellLogoPalette
   { arrowColor = sRGB24 69 58 98
   , lambdaColor = sRGB24 94 80 134
   , equalsColor = sRGB24 143 78 139
+  }
+
+-- | A palette of a single colour.
+plainHaskellLogoPalette :: c -> HaskellLogoPalette c
+plainHaskellLogoPalette c = HaskellLogoPalette
+  { arrowColor = c
+  , lambdaColor = c
+  , equalsColor = c
   }
